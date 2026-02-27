@@ -8,10 +8,6 @@ export interface SessionData {
   picture?: string
   accessToken: string
   refreshToken?: string
-  apiKey?: string
-  apiKeyObtainedAt?: number // Timestamp when the API key was obtained
-  teamId?: string // Cached team ID to avoid repeated API calls
-  teamSlug?: string // Cached team slug for buy-credits URL
   expiresAt: number
   isLoggedIn: boolean
 }
@@ -52,10 +48,6 @@ export async function setSession(data: SessionData): Promise<void> {
   session.picture = data.picture
   session.accessToken = data.accessToken
   session.refreshToken = data.refreshToken
-  session.apiKey = data.apiKey
-  session.apiKeyObtainedAt = data.apiKeyObtainedAt
-  session.teamId = data.teamId
-  session.teamSlug = data.teamSlug
   session.expiresAt = data.expiresAt
   session.isLoggedIn = true
   await session.save()

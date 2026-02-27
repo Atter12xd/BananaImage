@@ -1,11 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getSessionFromRequest, type SessionData } from "@/lib/secure-session"
 import { getIronSession, type SessionOptions } from "iron-session"
-import {
-  exchangePersonalAccessTokenForGatewayApiKey,
-  shouldRefreshApiKey,
-} from "@/lib/exchange-token"
-import { getAuthenticatedUser } from "@/lib/auth"
 import * as cookie from "cookie"
 
 // Token response type matching what Vercel OAuth returns
@@ -118,10 +113,6 @@ async function saveSessionToResponse(response: NextResponse, session: SessionDat
   ironSession.picture = session.picture
   ironSession.accessToken = session.accessToken
   ironSession.refreshToken = session.refreshToken
-  ironSession.apiKey = session.apiKey
-  ironSession.apiKeyObtainedAt = session.apiKeyObtainedAt
-  ironSession.teamId = session.teamId
-  ironSession.teamSlug = session.teamSlug
   ironSession.expiresAt = session.expiresAt
   ironSession.isLoggedIn = session.isLoggedIn
   await ironSession.save()
@@ -222,45 +213,6 @@ export async function proxy(request: NextRequest) {
             user: session.email,
             newExpiresAt: new Date(session.expiresAt).toISOString(),
           })
-          
-          // Also refresh API key if needed (following the pattern from /api/auth/refresh)
-          const needsApiKeyRefresh = !session.apiKey || shouldRefreshApiKey(session.apiKeyObtainedAt)
-          
-          if (needsApiKeyRefresh && session.teamId) {
-            try {
-              const apiKey = await exchangePersonalAccessTokenForGatewayApiKey({
-                personalAccessToken: newTokens.access_token,
-                teamId: session.teamId,
-              })
-              if (apiKey) {
-                session.apiKey = apiKey
-                session.apiKeyObtainedAt = Date.now()
-                console.log("[proxy] API key refreshed successfully")
-              }
-            } catch (error) {
-              console.error("[proxy] Failed to refresh API key:", error)
-              // Continue even if API key refresh fails
-            }
-          } else if (needsApiKeyRefresh && !session.teamId) {
-            // Try to get teamId from authenticated user
-            try {
-              const authenticatedUser = await getAuthenticatedUser(newTokens.access_token)
-              if (authenticatedUser?.teamId) {
-                session.teamId = authenticatedUser.teamId
-                const apiKey = await exchangePersonalAccessTokenForGatewayApiKey({
-                  personalAccessToken: newTokens.access_token,
-                  teamId: authenticatedUser.teamId,
-                })
-                if (apiKey) {
-                  session.apiKey = apiKey
-                  session.apiKeyObtainedAt = Date.now()
-                  console.log("[proxy] API key obtained for first time")
-                }
-              }
-            } catch (error) {
-              console.error("[proxy] Failed to get user for API key:", error)
-            }
-          }
         }
       }
     }

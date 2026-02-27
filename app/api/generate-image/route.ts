@@ -2,10 +2,6 @@ import { type NextRequest, NextResponse } from "next/server"
 import { start } from "workflow/api"
 import { generateImageWorkflow, type GenerateImageInput } from "@/workflows/generate-image"
 import { getSession } from "@/lib/secure-session"
-import {
-  exchangePersonalAccessTokenForGatewayApiKey,
-  shouldRefreshApiKey,
-} from "@/lib/exchange-token"
 import { checkUsageLimit, getRateLimitHeaders, type UsageLimitResult } from "@/lib/usage"
 import type { ModelType, ThinkingLevel, Resolution } from "@/components/image-combiner/types"
 
@@ -39,45 +35,10 @@ export async function POST(request: NextRequest) {
   try {
     const ip = request.headers.get("x-forwarded-for")?.split(",")[0] || request.headers.get("x-real-ip") || "unknown"
 
-    let gatewayApiKey: string | null = null
     let userEmail: string | null = null
 
     const session = await getSession()
     userEmail = session?.email || null
-
-    // Helper to refresh API key
-    const refreshApiKey = async (): Promise<string | null> => {
-      if (!session?.accessToken) return null
-      try {
-        const teamId = session.teamId
-        if (!teamId) return null
-        const newKey = await exchangePersonalAccessTokenForGatewayApiKey({
-          personalAccessToken: session.accessToken,
-          teamId,
-        })
-        if (newKey) {
-          session.apiKey = newKey
-          session.apiKeyObtainedAt = Date.now()
-          await session.save()
-          return newKey
-        }
-      } catch (error) {
-        console.error("[generate-image] Error refreshing API key:", error)
-      }
-      return null
-    }
-
-    if (session?.apiKey) {
-      userEmail = session.email
-      if (shouldRefreshApiKey(session.apiKeyObtainedAt)) {
-        const newKey = await refreshApiKey()
-        gatewayApiKey = newKey || session.apiKey
-      } else {
-        gatewayApiKey = session.apiKey
-      }
-    } else if (session?.accessToken) {
-      gatewayApiKey = await refreshApiKey()
-    }
 
     const isAuthenticated = !!session?.accessToken
 
@@ -97,10 +58,10 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const finalApiKey = gatewayApiKey || process.env.VERCEL_AI_GATEWAY_API_KEY
-    if (!finalApiKey) {
+    const apiKey = process.env.AI_GATEWAY_API_KEY
+    if (!apiKey) {
       return NextResponse.json<ErrorResponse>(
-        { error: "Configuration error", details: "No AI Gateway API key available." },
+        { error: "Configuration error", details: "AI_GATEWAY_API_KEY is not configured." },
         { status: 500 },
       )
     }
@@ -204,7 +165,7 @@ export async function POST(request: NextRequest) {
       thinkingLevel,
       resolution,
       useGrounding,
-      apiKey: finalApiKey,
+      apiKey,
       userEmail,
       ip,
       image1DataUrl,

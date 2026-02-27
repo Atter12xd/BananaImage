@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useAuth } from "@/hooks/use-auth"
 import { LogIn, LogOut, Loader2 } from "lucide-react"
-import { CreditsDisplay } from "./credits-display"
 
 export function AuthButton() {
   const { user, initialLoading, signIn, signOut, isAuthenticated, signingIn, signingOut } = useAuth()
@@ -23,10 +22,9 @@ export function AuthButton() {
     // CSS shows the right skeleton instantly — no flash.
     return (
       <div className="flex items-center ml-auto">
-        {/* Authed skeleton: avatar + balance shape */}
+        {/* Authed skeleton: avatar shape */}
         <div className="hidden [.nb-authed_&]:flex items-center gap-1.5 animate-pulse">
           <div className="h-7 w-7 md:h-8 md:w-8 rounded-sm bg-gray-800" />
-          <div className="h-7 md:h-8 w-14 rounded bg-gray-800" />
         </div>
         {/* Unauthed: empty space */}
         <div className="flex [.nb-authed_&]:hidden items-center h-8 min-w-[56px]" />
@@ -39,7 +37,6 @@ export function AuthButton() {
     return (
       <div className="flex items-center gap-1.5 ml-auto animate-pulse">
         <div className="h-7 w-7 md:h-8 md:w-8 rounded-sm bg-gray-800" />
-        <div className="h-7 md:h-8 w-14 rounded bg-gray-800" />
       </div>
     )
   }
@@ -109,7 +106,6 @@ export function AuthButton() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <CreditsDisplay />
     </div>
   )
 }

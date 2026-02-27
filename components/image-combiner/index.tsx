@@ -15,13 +15,14 @@ import { useResizablePanels } from "./hooks/use-resizable-panels"
 import { usePersistentHistory } from "./hooks/use-persistent-history"
 import { useAuth } from "@/hooks/use-auth"
 import { useUsage } from "@/hooks/use-usage"
-import { useCredits } from "@/hooks/use-credits"
+import { useInit } from "@/hooks/use-init"
 import { AuthButton } from "../auth-button"
 import { InputSection } from "./input-section"
 import { OutputSection } from "./output-section"
 import { ToastNotification } from "./toast-notification"
 import { GenerationHistory } from "./generation-history"
 import { GlobalDropZone } from "./global-drop-zone"
+import { SetupBanner } from "../setup-banner"
 import { savePendingGeneration, getPendingGeneration, clearPendingGeneration } from "@/lib/generation-state"
 import type { AspectRatio } from "@/types"
 import type { ModelType, ThinkingLevel, Resolution } from "./types"
@@ -35,10 +36,7 @@ const Dithering = dynamic(
 const MemoizedDithering = memo(Dithering)
 
 // Modals are only shown on user interaction - no need to load them upfront
-const OutOfCreditsDialog = lazy(() => import("../out-of-credits").then((mod) => ({ default: mod.OutOfCreditsDialog })))
 const AuthRequiredModal = lazy(() => import("../auth-required-modal").then((mod) => ({ default: mod.AuthRequiredModal })))
-const TeamAuthRequiredModal = lazy(() => import("../team-auth-required-modal").then((mod) => ({ default: mod.TeamAuthRequiredModal })))
-const CreditCardRequiredModal = lazy(() => import("../credit-card-required-modal").then((mod) => ({ default: mod.CreditCardRequiredModal })))
 const HowItWorksModal = lazy(() => import("./how-it-works-modal").then((mod) => ({ default: mod.HowItWorksModal })))
 const FullscreenViewer = lazy(() => import("./fullscreen-viewer").then((mod) => ({ default: mod.FullscreenViewer })))
 
@@ -47,7 +45,7 @@ export function ImageCombiner(): ReactElement {
   const { isAuthenticated, loading: authLoading } = useAuth()
   const router = useRouter()
   const { remaining, decrementOptimistic, loading: usageLoading } = useUsage()
-  const { needsTeamAuth } = useCredits()
+  const { data: initData } = useInit()
 
   // UI State — restore from draft if available
   const [prompt, setPrompt] = useState("")
@@ -58,8 +56,6 @@ export function ImageCombiner(): ReactElement {
   const [useGrounding, setUseGrounding] = useState(false)
   const draftRef = useRef<ReturnType<typeof getSavedDraft>>(null)
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null)
-  const [outOfCredits, setOutOfCredits] = useState(false)
-  const [creditCardRequired, setCreditCardRequired] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [showHowItWorks, setShowHowItWorks] = useState(false)
   const [logoLoaded, setLogoLoaded] = useState(false)
@@ -176,8 +172,6 @@ export function ImageCombiner(): ReactElement {
     addGeneration,
     onToast: showToast,
     onImageUpload: handleImageUpload,
-    onOutOfCredits: () => setOutOfCredits(true),
-    onCreditCardRequired: () => setCreditCardRequired(true),
     onRateLimit: () => setShowAuthModal(true),
   })
 
@@ -536,6 +530,8 @@ export function ImageCombiner(): ReactElement {
                 </div>
               </div>
 
+              {initData && <SetupBanner authConfigured={initData.authConfigured} aiConfigured={initData.aiConfigured} />}
+
               <div className="flex flex-col gap-4 xl:gap-0">
                 <div
                   ref={containerRef}
@@ -690,10 +686,7 @@ export function ImageCombiner(): ReactElement {
 
       {/* Lazy-loaded modals - only loaded when opened */}
       <Suspense fallback={null}>
-        {outOfCredits && <OutOfCreditsDialog open={outOfCredits} onOpenChange={setOutOfCredits} />}
-      {creditCardRequired && <CreditCardRequiredModal open={creditCardRequired} onOpenChange={setCreditCardRequired} />}
         {showAuthModal && <AuthRequiredModal open={showAuthModal} onOpenChange={setShowAuthModal} />}
-        {needsTeamAuth && <TeamAuthRequiredModal open={needsTeamAuth} />}
         {showHowItWorks && <HowItWorksModal open={showHowItWorks} onOpenChange={setShowHowItWorks} />}
         {showFullscreen && fullscreenImageUrl && (
           <FullscreenViewer

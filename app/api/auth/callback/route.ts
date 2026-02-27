@@ -1,6 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { decodeJWT, type TokenResponse, getAuthenticatedUser, getUserTeam } from "@/lib/auth"
-import { exchangePersonalAccessTokenForGatewayApiKey } from "@/lib/exchange-token"
+import { decodeJWT, type TokenResponse } from "@/lib/auth"
 import { getOrCreateUser } from "@/lib/db/queries"
 import { setSession } from "@/lib/secure-session"
 
@@ -77,48 +76,11 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-      const [_, authenticatedUser] = await Promise.all([
-        getOrCreateUser({
-          email: user.email,
-          name: user.name || user.preferred_username || null,
-          avatar_url: user.picture || null,
-        }),
-        getAuthenticatedUser(tokens.access_token).then(async (authUser) => {
-          // Also fetch team slug for cached buy-credits URL
-          if (authUser?.teamId) {
-            try {
-              const team = await getUserTeam(tokens.access_token, authUser.teamId)
-              return { ...authUser, teamSlug: team?.slug }
-            } catch {
-              return authUser
-            }
-          }
-          return authUser
-        }),
-      ])
-
-      let aiGatewayApiKey: string | undefined = undefined
-      let apiKeyObtainedAt: number | undefined = undefined
-
-      if (authenticatedUser?.teamId) {
-        try {
-          const exchangedKey = await exchangePersonalAccessTokenForGatewayApiKey({
-            personalAccessToken: tokens.access_token,
-            teamId: authenticatedUser.teamId,
-          })
-          if (exchangedKey) {
-            aiGatewayApiKey = exchangedKey
-            apiKeyObtainedAt = Date.now()
-            console.log(`[auth/callback] Login successful for ${user.email}, API key obtained`)
-          } else {
-            console.warn(`[auth/callback] Login for ${user.email} - no API key returned (may need team permissions)`)
-          }
-        } catch (error) {
-          console.error(`[auth/callback] Failed to get API key for ${user.email}:`, error)
-        }
-      } else {
-        console.warn(`[auth/callback] Login for ${user.email} - no teamId found`)
-      }
+      await getOrCreateUser({
+        email: user.email,
+        name: user.name || user.preferred_username || null,
+        avatar_url: user.picture || null,
+      })
 
       await setSession({
         email: user.email,
@@ -126,10 +88,6 @@ export async function GET(request: NextRequest) {
         picture: user.picture,
         accessToken: tokens.access_token,
         refreshToken: tokens.refresh_token,
-        apiKey: aiGatewayApiKey,
-        apiKeyObtainedAt: apiKeyObtainedAt,
-        teamId: authenticatedUser?.teamId,
-        teamSlug: authenticatedUser?.teamSlug,
         expiresAt: Date.now() + tokens.expires_in * 1000,
         isLoggedIn: true,
       })

@@ -34,15 +34,22 @@ export async function GET(request: NextRequest) {
           }
         : null
 
+    const authConfigured = !!(process.env.VERCEL_OAUTH_CLIENT_ID && process.env.VERCEL_OAUTH_CLIENT_SECRET)
+    const aiConfigured = !!process.env.AI_GATEWAY_API_KEY
+
     return NextResponse.json({
       user,
       usage,
+      authConfigured,
+      aiConfigured,
     })
   } catch (error) {
     console.error("[init] Error:", error)
     return NextResponse.json({
       user: null,
       usage: { allowed: true, remaining: 0, resetTime: 0 },
+      authConfigured: false,
+      aiConfigured: false,
     })
   }
 }

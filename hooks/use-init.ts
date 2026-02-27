@@ -13,6 +13,8 @@ interface InitData {
     remaining: number
     resetTime: number
   }
+  authConfigured: boolean
+  aiConfigured: boolean
 }
 
 const fetcher = async (url: string): Promise<InitData> => {

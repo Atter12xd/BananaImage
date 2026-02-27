@@ -4,11 +4,6 @@ export interface GatewayMetadata {
   generationId: string,
 }
 
-export async function getCredits(apiKey: string) {
-  const response = await fetchAiGateway<{ balance: string, total_used: string }>("/v1/credits", apiKey)
-  return response
-}
-
 export class AiGatewayError extends Error {
   status: number
   

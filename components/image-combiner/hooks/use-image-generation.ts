@@ -4,7 +4,6 @@ import type React from "react"
 
 import { useState, useEffect, useRef, useCallback } from "react"
 import type { Generation, GenerationPhase, ModelType, ThinkingLevel, Resolution } from "../types"
-import { useCredits } from "@/hooks/use-credits"
 import { useUsage } from "@/hooks/use-usage"
 
 interface UseImageGenerationProps {
@@ -188,7 +187,6 @@ export function useImageGeneration({
     initialPending?.[0]?.[1]?.generationId || null
   )
   const [imageLoaded, setImageLoaded] = useState(false)
-  const { refresh: refreshCredits } = useCredits()
   const { refresh: refreshUsage } = useUsage()
   const resumeAttempted = useRef(false)
   // Map generationId → runId for cancellation
@@ -372,7 +370,6 @@ export function useImageGeneration({
           )
         }
 
-        refreshCredits()
         refreshUsage()
       }
 
