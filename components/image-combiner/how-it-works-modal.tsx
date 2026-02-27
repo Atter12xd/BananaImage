@@ -17,16 +17,7 @@ export function HowItWorksModal({ open, onOpenChange }: HowItWorksModalProps) {
         <div className="space-y-6 text-sm text-gray-300 max-h-[60vh] overflow-y-auto pr-2">
           <div>
             <p className="leading-relaxed mb-3">
-              This playground was built with{" "}
-              <a
-                href="https://v0.dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-purple-400 hover:text-purple-300 underline"
-              >
-                v0
-              </a>{" "}
-              and demonstrates Google's image generation models. All API calls run through{" "}
+              This is an open-source template for building AI image generation apps. Fork it, add your{" "}
               <a
                 href="https://vercel.com/ai-gateway"
                 target="_blank"
@@ -35,10 +26,10 @@ export function HowItWorksModal({ open, onOpenChange }: HowItWorksModalProps) {
               >
                 Vercel AI Gateway
               </a>{" "}
-              for enterprise-grade routing and caching.
+              API key, and deploy.
             </p>
             <p className="leading-relaxed text-white/90">
-              You can clone this playground from v0 and build your own app with your Vercel AI Gateway credentials.
+              Sign in with Vercel is optional — without it the app runs in anonymous mode with rate limiting.
             </p>
           </div>
 
@@ -73,22 +64,19 @@ export function HowItWorksModal({ open, onOpenChange }: HowItWorksModalProps) {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-white mb-2">Technical Overview</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">How it works</h3>
             <ul className="list-disc list-inside space-y-2 ml-2">
               <li>
-                <span className="font-semibold text-white">Anonymous users:</span> Get 1 free generation stored in
-                localStorage
+                <span className="font-semibold text-white">Anonymous users:</span> Rate-limited to 1 generation/day per IP
               </li>
               <li>
-                <span className="font-semibold text-white">Authenticated users:</span> Vercel OAuth enables unlimited
-                generations with history synced to Supabase
+                <span className="font-semibold text-white">Authenticated users:</span> Unlimited generations (requires Vercel OAuth setup)
               </li>
               <li>
-                <span className="font-semibold text-white">Image processing:</span> Client-side base64 conversion with
-                format/size validation
+                <span className="font-semibold text-white">API key:</span> A single <code className="px-1 py-0.5 bg-white/10 rounded text-xs">AI_GATEWAY_API_KEY</code> env var powers all generations
               </li>
               <li>
-                <span className="font-semibold text-white">Aspect ratios:</span> 14 ratios including 1:1, 9:16, 16:9, 21:9, 4:3, 3:4, 3:2, 2:3, 5:4, 4:5, 1:4, 4:1, 1:8, 8:1. Auto-detects from uploaded images.
+                <span className="font-semibold text-white">Aspect ratios:</span> 14 ratios including 1:1, 9:16, 16:9, 4:3, and more. Auto-detects from uploaded images.
               </li>
             </ul>
           </div>
