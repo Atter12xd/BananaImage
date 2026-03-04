@@ -2,8 +2,8 @@ import { put } from "@vercel/blob"
 
 /**
  * Uploads a base64 image to Vercel Blob storage.
- * Uses private access so it works with private Blob stores.
- * Returns a URL to our /api/serve-blob route so the image can be displayed.
+ * Uses public access — the store must be created as Public in Vercel.
+ * Returns the public CDN URL of the uploaded image.
  */
 export async function uploadImageToBlob(base64Image: string, filename: string): Promise<string> {
   const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "")
@@ -19,14 +19,10 @@ export async function uploadImageToBlob(base64Image: string, filename: string): 
   const blob = new Blob([bytes], { type: contentType })
 
   const uploadedBlob = await put(filename, blob, {
-    access: "private",
+    access: "public",
     contentType,
     addRandomSuffix: true,
   })
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "")
-
-  return `${baseUrl}/api/serve-blob?url=${encodeURIComponent(uploadedBlob.url)}`
+  return uploadedBlob.url
 }
