@@ -1,29 +1,32 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { get } from "@vercel/blob"
 
 /**
- * Serves private Vercel Blob images so they can be displayed in the app.
- * Private blob URLs are not directly accessible; this route fetches with the token and streams.
+ * Serves private Vercel Blob images by fetching with the token and streaming.
+ * Works with any @vercel/blob version (no SDK get() required).
+ * See: https://vercel.com/docs/storage/vercel-blob/private-storage#accessing-without-the-sdk
  */
 export async function GET(request: NextRequest) {
-  const pathname = request.nextUrl.searchParams.get("pathname")
+  const url = request.nextUrl.searchParams.get("url")
+  const token = process.env.BLOB_READ_WRITE_TOKEN
 
-  if (!pathname) {
-    return NextResponse.json({ error: "Missing pathname" }, { status: 400 })
+  if (!url || !token) {
+    return NextResponse.json({ error: "Missing url or token" }, { status: 400 })
   }
 
   try {
-    const result = await get(pathname, { access: "private" })
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
 
-    if (!result || (result as { statusCode?: number }).statusCode !== 200) {
+    if (!res.ok || !res.body) {
       return new NextResponse("Not found", { status: 404 })
     }
 
-    const res = result as { stream: ReadableStream; blob: { contentType?: string } }
+    const contentType = res.headers.get("content-type") || "image/png"
 
-    return new NextResponse(res.stream, {
+    return new NextResponse(res.body, {
       headers: {
-        "Content-Type": res.blob?.contentType || "image/png",
+        "Content-Type": contentType,
         "X-Content-Type-Options": "nosniff",
         "Cache-Control": "private, no-cache",
       },

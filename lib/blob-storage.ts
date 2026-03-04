@@ -24,13 +24,9 @@ export async function uploadImageToBlob(base64Image: string, filename: string): 
     addRandomSuffix: true,
   })
 
-  const pathname =
-    "pathname" in uploadedBlob && typeof uploadedBlob.pathname === "string"
-      ? uploadedBlob.pathname
-      : new URL(uploadedBlob.url).pathname.slice(1)
   const baseUrl =
     process.env.NEXT_PUBLIC_APP_URL ||
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "")
 
-  return `${baseUrl}/api/serve-blob?pathname=${encodeURIComponent(pathname)}`
+  return `${baseUrl}/api/serve-blob?url=${encodeURIComponent(uploadedBlob.url)}`
 }
