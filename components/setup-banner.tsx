@@ -37,14 +37,6 @@ const SETUP_ITEMS: SetupItem[] = [
     linkText: "Set up Vercel Blob",
     severity: "required",
   },
-  {
-    key: "auth",
-    envVar: "Sign in with Vercel",
-    label: "is not configured. Without it the app runs in anonymous-only mode.",
-    href: "https://vercel.com/docs/sign-in-with-vercel",
-    linkText: "Learn how",
-    severity: "optional",
-  },
 ]
 
 interface SetupBannerProps {
