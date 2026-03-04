@@ -2,9 +2,9 @@ import { ImageCombiner } from "@/components/image-combiner"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Nano Banana Pro - Free AI Image Generator & Editor | Google Gemini Powered",
+  title: "Generador de imágenes con IA | Google Gemini",
   description:
-    "Generate images from text prompts or edit existing images with AI. Nano Banana Pro uses Google Gemini models, supports 5 aspect ratios, offers Pro (best quality) and Classic (2x faster) modes. Free, no watermarks, no sign-up required to try.",
+    "Genera imágenes desde texto o edita imágenes con IA. Usa modelos Google Gemini, varias proporciones y modos Pro y Clásico. Gratis, sin marcas de agua.",
 }
 
 export default function Home() {
@@ -12,37 +12,27 @@ export default function Home() {
     <main className="min-h-screen bg-background">
       <ImageCombiner />
       <article className="sr-only" aria-hidden="true">
-        <h1>Nano Banana Pro - AI Image Generator</h1>
+        <h1>Generador de imágenes con IA</h1>
         <section>
-          <h2>What is Nano Banana Pro?</h2>
+          <h2>¿Qué es?</h2>
           <p>
-            Nano Banana Pro is a free web-based AI image generator that creates images from text descriptions and edits
-            existing images using artificial intelligence. It is powered by Google Gemini models and hosted on Vercel.
+            Generador de imágenes con IA que crea imágenes desde texto y edita imágenes existentes. Usa modelos Google Gemini en Vercel.
           </p>
         </section>
         <section>
-          <h2>Features</h2>
+          <h2>Características</h2>
           <ul>
-            <li>Text-to-image generation: Describe what you want and get an AI-generated image</li>
-            <li>Image editing: Upload an image and describe changes you want</li>
-            <li>Multiple aspect ratios: 1:1 (square), 16:9 (landscape), 9:16 (portrait), 4:3, 3:4</li>
-            <li>Two generation modes: Pro (highest quality) and Classic (faster, ~2x speed)</li>
-            <li>No watermarks on generated images</li>
-            <li>Free to try without account</li>
+            <li>Texto a imagen: describe lo que quieres y obtén una imagen generada por IA</li>
+            <li>Edición: sube una imagen y describe los cambios</li>
+            <li>Varias proporciones: 1:1, 16:9, 9:16, 4:3, 3:4, etc.</li>
+            <li>Modos Pro (más calidad) y Clásico (más rápido)</li>
+            <li>Sin marcas de agua, gratis para probar</li>
           </ul>
         </section>
         <section>
-          <h2>How it works</h2>
+          <h2>Cómo funciona</h2>
           <p>
-            Enter a text prompt describing the image you want. Optionally upload reference images. Select your preferred
-            aspect ratio and generation mode. Click Run to generate. Download, copy, or continue editing the result.
-          </p>
-        </section>
-        <section>
-          <h2>Technology</h2>
-          <p>
-            Nano Banana Pro uses Google Gemini image generation models accessed through Vercel AI Gateway. Pro mode uses
-            Gemini 2.0 Flash for best quality. Classic mode uses Gemini 2.5 Flash for faster generation.
+            Escribe un texto describiendo la imagen. Opcionalmente sube imágenes de referencia. Elige proporción y modo. Pulsa Generar. Descarga o copia el resultado.
           </p>
         </section>
       </article>

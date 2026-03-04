@@ -69,10 +69,10 @@ export function GlobalDropZone({ dropZoneHover, onSetDropZoneHover, onDrop }: Gl
             />
           </svg>
           <p className={cn("text-xl font-bold transition-all", dropZoneHover === 1 ? "text-white" : "text-white/80")}>
-            Input 1
+            Imagen 1
           </p>
           <p className={cn("text-sm mt-2 transition-all", dropZoneHover === 1 ? "text-white/90" : "text-white/70")}>
-            Drop here for first image
+            Suelta aquí la primera imagen
           </p>
         </div>
       </div>
@@ -129,10 +129,10 @@ export function GlobalDropZone({ dropZoneHover, onSetDropZoneHover, onDrop }: Gl
             />
           </svg>
           <p className={cn("text-xl font-bold transition-all", dropZoneHover === 2 ? "text-white" : "text-white/80")}>
-            Input 2
+            Imagen 2
           </p>
           <p className={cn("text-sm mt-2 transition-all", dropZoneHover === 2 ? "text-white/90" : "text-white/70")}>
-            Drop here for second image
+            Suelta aquí la segunda imagen
           </p>
         </div>
       </div>

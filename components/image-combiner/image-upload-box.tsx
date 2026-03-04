@@ -50,7 +50,7 @@ export const ImageUploadBox = memo(function ImageUploadBox({
       onClick={onSelect}
       role="button"
       tabIndex={0}
-      aria-label={`Upload image ${imageNumber}`}
+      aria-label={`Subir imagen ${imageNumber}`}
       onKeyDown={handleKeyDown}
     >
       {preview ? (
@@ -58,7 +58,7 @@ export const ImageUploadBox = memo(function ImageUploadBox({
           <button
             onClick={handleClearClick}
             className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 z-10 bg-black/90 hover:bg-white/90 text-white hover:text-black p-1 sm:p-1.5 transition-all shadow-lg border border-white/40 opacity-100"
-            aria-label={`Clear image ${imageNumber}`}
+            aria-label={`Quitar imagen ${imageNumber}`}
           >
             <svg
               className="w-3 h-3 sm:w-4 sm:h-4"
@@ -94,8 +94,8 @@ export const ImageUploadBox = memo(function ImageUploadBox({
               d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
             />
           </svg>
-          <p className="text-xs">{imageNumber === 1 ? "Upload Image" : "Second Image"}</p>
-          <p className="text-[10px] text-gray-500 mt-0.5 hidden lg:block">(or drag & drop)</p>
+          <p className="text-xs">{imageNumber === 1 ? "Subir imagen" : "Segunda imagen"}</p>
+          <p className="text-[10px] text-gray-500 mt-0.5 hidden lg:block">(o arrastra y suelta)</p>
         </div>
       )}
     </div>

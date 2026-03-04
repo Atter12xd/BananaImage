@@ -72,7 +72,7 @@ const GenerationThumbnail = memo(function GenerationThumbnail({
       )}
       role="button"
       tabIndex={0}
-      aria-label={`Generation ${index + 1}`}
+      aria-label={`Generación ${index + 1}`}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault()
@@ -89,7 +89,7 @@ const GenerationThumbnail = memo(function GenerationThumbnail({
               onClick={(e) => onDeleteClick(e, gen.id)}
               disabled={deletingId === gen.id}
               className="absolute top-1 right-1 p-1 bg-black/70 hover:bg-white text-white hover:text-black opacity-0 group-hover:opacity-100 transition-all disabled:opacity-50 z-10"
-              aria-label="Delete generation"
+              aria-label="Eliminar generación"
             >
               {deletingId === gen.id ? (
                 <Loader2 className="w-3 h-3 animate-spin" />
@@ -102,7 +102,7 @@ const GenerationThumbnail = memo(function GenerationThumbnail({
           )}
           <Image
             src={gen.imageUrl}
-            alt={gen.prompt || "Generated image"}
+            alt={gen.prompt || "Imagen generada"}
             width={192}
             height={192}
             quality={85}
@@ -134,9 +134,9 @@ const GenerationThumbnail = memo(function GenerationThumbnail({
               onCancel(gen.id)
             }}
             className="mt-2 text-[10px] px-2 py-0.5 bg-white/10 hover:bg-white text-white hover:text-black transition-all"
-            aria-label="Cancel generation"
+            aria-label="Cancelar generación"
           >
-            Cancel
+            Cancelar
           </button>
         </div>
       )}
@@ -153,13 +153,13 @@ const GenerationThumbnail = memo(function GenerationThumbnail({
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
-          <span className="sr-only">Generation failed</span>
+          <span className="sr-only">Generación fallida</span>
           {onDelete && (
             <button
               onClick={(e) => onDeleteClick(e, gen.id)}
               disabled={deletingId === gen.id}
               className="absolute top-1 right-1 p-1 bg-black/70 hover:bg-white text-white hover:text-black opacity-100 transition-all disabled:opacity-50 z-10"
-              aria-label="Delete generation"
+              aria-label="Eliminar generación"
             >
               {deletingId === gen.id ? (
                 <Loader2 className="w-3 h-3 animate-spin" />

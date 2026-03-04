@@ -25,7 +25,7 @@ function useElapsedSeconds() {
 
 function getStatusMessage(elapsed: number): string | null {
   if (elapsed < 45) return null
-  return "The model is taking longer than usual — hang tight"
+  return "Está tardando más de lo habitual — espera un momento"
 }
 
 export function ProgressBar({ progress, onCancel }: ProgressBarProps) {
@@ -105,7 +105,7 @@ export function ProgressBar({ progress, onCancel }: ProgressBarProps) {
             size="sm"
             className="text-xs h-7 px-3 bg-transparent border-gray-600 text-white hover:bg-gray-700"
           >
-            Cancel
+            Cancelar
           </Button>
         </div>
       </div>

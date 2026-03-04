@@ -33,7 +33,7 @@ const AnonGenerateButton = memo(function AnonGenerateButton({
   if (usageLoading) {
     return (
       <Button variant="outline" className={btnClassName} disabled>
-        Run
+        Generar
       </Button>
     )
   }
@@ -235,7 +235,7 @@ export const InputSection = memo(function InputSection({
           <div className="space-y-3 md:space-y-4 flex flex-col">
             <div className="flex items-center justify-between mb-3 md:mb-6 select-none min-w-0">
               <div className="flex flex-col gap-1 flex-shrink-0">
-                <label className="text-sm md:text-base font-medium text-gray-300">Prompt</label>
+                <label className="text-sm md:text-base font-medium text-gray-300">Descripción</label>
               </div>
               <div className="flex items-center gap-1.5 md:gap-2 min-w-0 flex-shrink overflow-hidden">
                 {/* NB2 settings popover */}
@@ -248,8 +248,8 @@ export const InputSection = memo(function InputSection({
                     </PopoverTrigger>
                     <PopoverContent align="end" className="w-64 bg-black/95 border-gray-600 text-white p-3 space-y-3">
                       <div className="space-y-1.5">
-                        <label className="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Thinking</label>
-                        <p className="text-[10px] text-gray-500">How much the model reasons before generating</p>
+                        <label className="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Razonamiento</label>
+                        <p className="text-[10px] text-gray-500">Cuánto piensa el modelo antes de generar</p>
                         <div className="inline-flex w-full bg-black/50 border border-gray-600">
                           <button
                             onClick={() => setThinkingLevel("minimal")}
@@ -258,7 +258,7 @@ export const InputSection = memo(function InputSection({
                               thinkingLevel === "minimal" ? "bg-white text-black" : "text-gray-300 hover:text-white",
                             )}
                           >
-                            Minimal
+                            Mínimo
                           </button>
                           <button
                             onClick={() => setThinkingLevel("high")}
@@ -267,13 +267,13 @@ export const InputSection = memo(function InputSection({
                               thinkingLevel === "high" ? "bg-white text-black" : "text-gray-300 hover:text-white",
                             )}
                           >
-                            High
+                            Alto
                           </button>
                         </div>
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Resolution</label>
-                        <p className="text-[10px] text-gray-500">Output image size</p>
+                        <label className="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Resolución</label>
+                        <p className="text-[10px] text-gray-500">Tamaño de la imagen</p>
                         <div className="inline-flex w-full bg-black/50 border border-gray-600">
                           {(["1K", "2K", "4K"] as const).map((r) => (
                             <button
@@ -290,8 +290,8 @@ export const InputSection = memo(function InputSection({
                         </div>
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Search</label>
-                        <p className="text-[10px] text-gray-500">Ground the generation with real-time web results</p>
+                        <label className="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider">Búsqueda</label>
+                        <p className="text-[10px] text-gray-500">Usar búsqueda web en tiempo real</p>
                         <button
                           onClick={() => setUseGrounding(!useGrounding)}
                           className={cn(
@@ -313,14 +313,14 @@ export const InputSection = memo(function InputSection({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-black/95 border-gray-600 text-white min-w-[180px]">
-                    <SelectItem value="nb2" textValue="NB2" className="text-xs md:text-sm" description="Pro quality, Flash speed">
+                    <SelectItem value="nb2" textValue="NB2" className="text-xs md:text-sm" description="Buena calidad, rápido">
                       NB2
                     </SelectItem>
-                    <SelectItem value="pro" textValue="Pro" className="text-xs md:text-sm" description="Best quality · ~$0.17/gen">
+                    <SelectItem value="pro" textValue="Pro" className="text-xs md:text-sm" description="Mejor calidad">
                       Pro
                     </SelectItem>
-                    <SelectItem value="classic" textValue="Classic" className="text-xs md:text-sm" description="Faster · ~$0.08/gen">
-                      Classic
+                    <SelectItem value="classic" textValue="Clásico" className="text-xs md:text-sm" description="Más rápido">
+                      Clásico
                     </SelectItem>
                   </SelectContent>
                 </Select>
@@ -346,7 +346,7 @@ export const InputSection = memo(function InputSection({
                   className="h-7 md:h-10 px-3 py-0 text-xs md:text-sm bg-transparent border border-gray-600 text-white hover:bg-gray-700 disabled:opacity-50"
                 >
                   <Trash2 className="size-4 md:hidden" />
-                  <span className="hidden md:inline">Clear</span>
+                  <span className="hidden md:inline">Borrar</span>
                 </Button>
               </div>
             </div>
@@ -356,8 +356,8 @@ export const InputSection = memo(function InputSection({
               onChange={handlePromptChange}
               onKeyDown={onKeyDown}
               onPaste={onPromptPaste}
-              placeholder=""
-              aria-label="Image generation prompt"
+              placeholder="Ej: Un gato naranja durmiendo en un sofá azul, estilo acuarela"
+              aria-label="Descripción para generar la imagen"
               autoFocus
               className="w-full flex-1 min-h-[100px] max-h-[140px] lg:min-h-[12vh] lg:max-h-[18vh] xl:min-h-[14vh] xl:max-h-[20vh] p-2 md:p-4 bg-black/50 border-2 border-gray-600 resize-none focus:outline-none focus:border-white text-white text-xs md:text-base select-text"
               style={{
@@ -372,7 +372,7 @@ export const InputSection = memo(function InputSection({
             <div>
               <div className="flex items-center justify-between mb-2 md:mb-3 select-none min-w-0">
                 <div className="flex flex-col gap-1">
-                  <label className="text-sm md:text-base font-medium text-gray-300">Images (optional)</label>
+                  <label className="text-sm md:text-base font-medium text-gray-300">Imágenes (opcional)</label>
                 </div>
                 <div className="inline-flex bg-black/50 border border-gray-600">
                   <button
@@ -382,7 +382,7 @@ export const InputSection = memo(function InputSection({
                       !useUrls ? "bg-white text-black" : "text-gray-300 hover:text-white",
                     )}
                   >
-                    Files
+                    Archivos
                   </button>
                   <button
                     onClick={toggleUrls(true)}
@@ -403,14 +403,14 @@ export const InputSection = memo(function InputSection({
                       type="url"
                       value={image1Url}
                       onChange={handleUrl1Change}
-                      placeholder="First image URL"
-                      aria-label="First image URL"
+                      placeholder="URL de la primera imagen"
+                      aria-label="URL de la primera imagen"
                       className="w-full p-2 md:p-3 pr-8 bg-black/50 border border-gray-600 text-white text-xs focus:outline-none focus:ring-2 focus:ring-white select-text"
                     />
                     {image1Url && (
                       <button
                         onClick={handleClearImage1}
-                        aria-label="Clear first image URL"
+                        aria-label="Borrar URL primera imagen"
                         className="absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                       >
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -425,14 +425,14 @@ export const InputSection = memo(function InputSection({
                       type="url"
                       value={image2Url}
                       onChange={handleUrl2Change}
-                      placeholder="Second image URL"
-                      aria-label="Second image URL"
+                      placeholder="URL de la segunda imagen"
+                      aria-label="URL de la segunda imagen"
                       className="w-full p-2 md:p-3 pr-8 bg-black/50 border border-gray-600 text-white text-xs focus:outline-none focus:ring-2 focus:ring-white select-text"
                     />
                     {image2Url && (
                       <button
                         onClick={handleClearImage2}
-                        aria-label="Clear second image URL"
+                        aria-label="Borrar URL segunda imagen"
                         className="absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                       >
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -485,7 +485,7 @@ export const InputSection = memo(function InputSection({
             <div className="flex items-center gap-2">
               {isAuthenticated ? (
                 <Button onClick={onGenerate} disabled={!canGenerate} className={btnClassName}>
-                  Run
+                  Generar
                 </Button>
               ) : (
                 <AnonGenerateButton
@@ -497,7 +497,7 @@ export const InputSection = memo(function InputSection({
                   onShowAuthModal={onShowAuthModal}
                   savePendingAndGenerate={savePendingAndGenerate}
                 >
-                  Run
+                  Generar
                 </AnonGenerateButton>
               )}
             </div>

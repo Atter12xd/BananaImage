@@ -511,10 +511,10 @@ export function ImageCombiner(): ReactElement {
               <div className="flex items-start justify-between gap-4 mb-2 md:mb-3 flex-shrink-0">
                 <div className="flex flex-col items-start">
                   <h1 className="text-lg md:text-2xl font-bold text-white select-none leading-none">
-                    <span className="text-gray-400">v0</span> Nano Banana Playground
+                    <span className="text-gray-400">v0</span> Generador de imágenes con IA
                   </h1>
                   <p className="text-[9px] md:text-[10px] text-gray-400 select-none tracking-wide mt-0.5 md:mt-1">
-                    Powered by{" "}
+                    Con{" "}
                     <a
                       href="https://vercel.com/ai-gateway"
                       target="_blank"
@@ -665,7 +665,7 @@ export function ImageCombiner(): ReactElement {
 
               <div className="mt-3 md:mt-4 border-t border-white/10 pt-3 md:pt-5 flex items-center justify-center gap-2 sm:gap-4 text-[10px] sm:text-xs text-white/60 flex-shrink-0">
                 <button onClick={() => setShowHowItWorks(true)} className="hover:text-white/80 transition-colors">
-                  How it works
+                  Cómo funciona
                 </button>
                 <span className="text-white/20">•</span>
                 <a

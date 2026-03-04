@@ -16,25 +16,25 @@ const SETUP_ITEMS: SetupItem[] = [
   {
     key: "ai",
     envVar: "AI_GATEWAY_API_KEY",
-    label: "is required to enable image generation.",
+    label: "es necesaria para generar imágenes.",
     href: "https://vercel.com/docs/ai-gateway",
-    linkText: "Set up AI Gateway",
+    linkText: "Configurar AI Gateway",
     severity: "required",
   },
   {
     key: "db",
     envVar: "Supabase",
-    label: "is required for rate limiting, usage tracking, and generation history.",
+    label: "es necesario para límites de uso e historial.",
     href: "https://vercel.com/integrations/supabase",
-    linkText: "Add Supabase integration",
+    linkText: "Añadir Supabase",
     severity: "required",
   },
   {
     key: "blob",
     envVar: "BLOB_READ_WRITE_TOKEN",
-    label: "is required to store generated images.",
+    label: "es necesario para guardar las imágenes generadas.",
     href: "https://vercel.com/docs/vercel-blob",
-    linkText: "Set up Vercel Blob",
+    linkText: "Configurar Vercel Blob",
     severity: "required",
   },
 ]
@@ -76,7 +76,7 @@ export function SetupBanner({ authConfigured, aiConfigured, dbConfigured, blobCo
           <div className="flex items-start gap-3">
             <AlertTriangle className="h-4 w-4 flex-shrink-0 mt-0.5" />
             <div className="flex-1 space-y-1.5">
-              <p className="text-sm font-medium">Setup required</p>
+              <p className="text-sm font-medium">Configuración necesaria</p>
               {required.map((item) => (
                 <p key={item.key} className="text-sm text-amber-200/80">
                   <code className="bg-amber-500/20 px-1 rounded text-amber-100">
