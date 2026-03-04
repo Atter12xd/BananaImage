@@ -1,6 +1,6 @@
 "use client"
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 interface HowItWorksModalProps {
   open: boolean
@@ -13,6 +13,9 @@ export function HowItWorksModal({ open, onOpenChange }: HowItWorksModalProps) {
       <DialogContent className="max-w-2xl bg-black/95 border border-white/10 text-white">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">Cómo funciona</DialogTitle>
+          <DialogDescription className="sr-only">
+            Instrucciones para usar el generador de imágenes: modelos, opciones y atajos.
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-6 text-sm text-gray-300 max-h-[60vh] overflow-y-auto pr-2">
           <div>
