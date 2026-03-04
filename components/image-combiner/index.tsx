@@ -668,14 +668,7 @@ export function ImageCombiner(): ReactElement {
                   Cómo funciona
                 </button>
                 <span className="text-white/20">•</span>
-                <a
-                  href="https://x.com/estebansuarez"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-white/80 transition-colors"
-                >
-                  @estebansuarez
-                </a>
+                <span className="text-white/60">Atter Basilio</span>
               </div>
             </div>
           </div>

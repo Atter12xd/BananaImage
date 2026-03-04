@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
 import localFont from "next/font/local"
 import { Suspense } from "react"
-import { Analytics } from "@vercel/analytics/react"
 import { ErrorBoundary } from "@/components/error-boundary"
 import "./globals.css"
 
@@ -263,7 +262,6 @@ export default async function RootLayout({
         <ErrorBoundary>
           <Suspense fallback={null}>{children}</Suspense>
         </ErrorBoundary>
-        <Analytics />
       </body>
     </html>
   )

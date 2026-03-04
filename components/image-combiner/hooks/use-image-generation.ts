@@ -636,7 +636,6 @@ export function useImageGeneration({
 
     await Promise.all(generationPromises)
 
-    refreshCredits()
     refreshUsage()
   }
 
